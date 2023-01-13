@@ -1,5 +1,5 @@
 digraph{
-    ranksep=.4;
+    ranksep=.2;
     rankdir="TB";
 
     r [label="parent(Parent,Child)."];
