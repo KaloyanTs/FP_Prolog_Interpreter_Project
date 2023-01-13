@@ -38,7 +38,7 @@ needed a qrs = filter notBad (map (onlyUseful vars) qrs)
     onlyUseful [] _ = EndQR True
     onlyUseful arr (EndQR b) = EndQR b
     onlyUseful arr (MakeQR qr@(var, _) qrs)
-      | any ((==) var) arr = MakeQR qr (onlyUseful (filter (not . (==) var) arr) qrs)
+      | var `elem` arr = MakeQR qr (onlyUseful (filter (not . (==) var) arr) qrs)
       | otherwise = onlyUseful (filter (not . (==) var) arr) qrs
 
 resolve :: Fact -> Database -> [QueryResult]
