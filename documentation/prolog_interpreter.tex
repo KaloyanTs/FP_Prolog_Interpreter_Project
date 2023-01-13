@@ -118,7 +118,7 @@
 	
 	\subsection{Примерен входен файл}
 	
-	Входен файл: \emph{prolog/factsandrules.pl}:
+	Входен файл: \emph{prolog/starwars.pl}:
 	
 	\begin{lstlisting}[language=Prolog,numbers=right]
 		%father/2
@@ -184,12 +184,12 @@
 		else QueryResult, corresponding to the result list;
 		
 	\end{lstlisting}
+
+	\begin{landscape}
 	
 	\subsection{Резолюция}
 	
 	Резолюцията на термове се извършва по алгоритъма на \emph{SLD резолюцията}. Строи се кореново дърво, чиито върхове съдържат (на практика не е необходимо) конюнкция на термове. Листата на дървото съдържат необходими преобразувания до достигане на верен факт от заявката. Дървото е потенциално безкрайно, но благодарение на механизма за нормално оценяване, самото конструиране на дървото и извличане на резултати от него стават паралелно.
-	
-	\begin{landscape}
 
 	\subsubsection{Примерно дърво}
 	
@@ -213,9 +213,15 @@
 	
 	Стартиране на интерпретатора (в конзолен режим):
 	
+	%todo edit
 	\begin{lstlisting}
 		Which file to consult from the directory "prolog/"?
-		> factsandrules.pl
+		> starwar.pl
+		No such file...
+		Consult another file? ( y | [n] )
+		> y
+		Which file to consult from the directory "prolog/"?
+		> starwars.pl
 		true.
 		> father(anakin,luke).
 		true.
@@ -236,7 +242,9 @@
 		Parent = han.
 		Child = ben.
 		
-		You are allowed to input only facts, queries and equalities!
+		Parent = han.
+		Child = kyloren.
+		.
 		> a(X)=a(arg).
 		X = arg.
 		> a(Y,r)=b(X,Z).
