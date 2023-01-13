@@ -80,6 +80,7 @@ loop = do
   anotherFile
 
 -- todo childof(X,Y) doesn't finish
+-- todo halts when reversed variables from left to right
 
 main :: IO ()
 main = do
