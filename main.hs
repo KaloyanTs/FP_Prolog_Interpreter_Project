@@ -1,6 +1,8 @@
 import Prolog
 import Tools
 
+import Control.Exception
+
 showQRs :: [QueryResult] -> IO ()
 showQRs [] = do
   putStrLn "false."
@@ -48,26 +50,34 @@ userInteract database = do
 
 workWithFile :: String -> IO ()
 workWithFile path = do
-  contents <- readFile ("prolog/" ++ path)
-  let truth = consult contents
-  putStrLn $ if fst truth then "true." else "false.\n" ++ unlines (snd truth)
-  let realCode =
-        [ removeWhiteSpacesAroundComma x
-          | x <- lines contents,
-            (not . isComment) x,
-            (not . null) x
-        ]
-  let interpretedCode = interpreteCode realCode
-  userInteract interpretedCode
+  contents <- try (readFile ("prolog/" ++ path)) :: IO (Either SomeException String) 
+  case contents of 
+     Left ex   -> putStrLn "No such file... " 
+     Right val -> do
+        let truth = consult val
+        putStrLn $ if fst truth then "true." else "false.\n" ++ unlines (snd truth)
+        let realCode =
+              [ removeWhiteSpacesAroundComma x
+                | x <- lines val,
+                  (not . isComment) x,
+                  (not . null) x
+              ]
+        let interpretedCode = interpreteCode realCode
+        userInteract interpretedCode
+
+anotherFile :: IO()
+anotherFile = do
+  putStr "Consult another file? ( y | [n] )\n> "
+  response <- getLine
+  if (not . null) response && head response == 'y' then loop else return ()
 
 loop :: IO ()
 loop = do
   putStr "Which file to consult from the directory \"prolog/\"?\n> "
   file <- getLine
   workWithFile file
-  putStr "Consult another file? ( y | [n] )\n> "
-  response <- getLine
-  if (not . null) response && head response == 'y' then loop else return ()
+  anotherFile
+
 
 -- todo handle error on file reading
 -- todo childof(X,Y) doesn't finish
