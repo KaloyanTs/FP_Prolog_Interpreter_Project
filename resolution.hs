@@ -42,9 +42,10 @@ needed a qrs = filter notBad (map (onlyUseful vars) qrs)
       | any (areIdenticalVariables var) arr = MakeQR qr (onlyUseful (filter (not . areIdenticalVariables var) arr) qrs)
       | otherwise = onlyUseful (filter (not . areIdenticalVariables var) arr) qrs
 
+resolve :: Fact -> Database -> [QueryResult]
+resolve a db = needed a $ collectSolutions $ buildRTree db [a] (EndQR True)
+
 interpreteInput :: String -> Database -> [QueryResult]
 interpreteInput input db@(r, f)
-  | isFact input = needed readyAtom $ collectSolutions $ buildRTree db [readyAtom] (EndQR True)
+  | isFact input = resolve (toAtom (init input)) db
   | otherwise = [toBeUnified (toEquality input)]
-  where
-    readyAtom = toAtom (init input)
