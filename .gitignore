@@ -3,7 +3,8 @@
 !*.hs
 !*.pl
 !documentation/
-!*.pdf
+!prolog*.pdf
+!requ*.pdf
 !*.tex
 !*.dot
 !*.eps
