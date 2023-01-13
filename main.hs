@@ -81,6 +81,9 @@ loop = do
 
 -- todo childof(X,Y) doesn't finish
 -- todo halts when reversed variables from left to right
+-- todo maybe append "0" to variables in the file
+-- todo using 2 functions
+        -- todo one when reading from file and one regular
 
 main :: IO ()
 main = do

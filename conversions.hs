@@ -13,11 +13,11 @@ toIdentifier s@(x : xs)
   | not (isIdentifier s) = error $ s ++ " cannot be a valid identifier"
   | otherwise = MakeId x (toLNS xs)
 
-toVariable :: String -> Variable
-toVariable [] = error "empty String cannot be a variable"
-toVariable s@(x : xs)
+toVariable :: String -> Bool -> Variable
+toVariable [] _ = error "empty String cannot be a variable"
+toVariable s@(x : xs) file
   | not (isVariable s) = error $ s ++ " cannot be a valid variable"
-  | otherwise = MakeVar x (toLNS xs)
+  | otherwise = MakeVar x (toLNS (if file then xs ++ "0" else xs))
 
 toConstant :: String -> Constant
 toConstant [] = error "empty String cannot be a constant"
@@ -25,48 +25,48 @@ toConstant s@(x : xs)
   | not (isConstant s) = error $ s ++ " cannot be a valid constant"
   | otherwise = MakeId x (toLNS xs)
 
-toAtom :: String -> Atom
-toAtom l
+toAtom :: String -> Bool -> Atom
+toAtom l file
   | not (isAtom l) = error $ l ++ " cannot be an atom"
   | otherwise = MakeAtom id (toTermSequence terms)
   where
     id = toIdentifier (takeWhile (/= '(') l)
     parPart = dropWhile (/= '(') l
     isValidPar = (not . null) parPart && (head parPart == '(' && last parPart == ')')
-    terms = map (toTerm . removeEndSpace) (splitBy ',' (init (tail parPart)))
+    terms = map ((`toTerm` file) . removeEndSpace) (splitBy ',' (init (tail parPart)))
 
-toTerm :: String -> Term
-toTerm l
+toTerm :: String -> Bool -> Term
+toTerm l file
   | not (isTerm l) = error $ l ++ " cannot be a term"
   | isConstant l = MakeTermC (toConstant l)
-  | isVariable l = MakeTermV (toVariable l)
-  | otherwise = MakeTermAtom (toAtom l)
+  | isVariable l = MakeTermV (toVariable l file)
+  | otherwise = MakeTermAtom (toAtom l file)
 
 toTermSequence :: [Term] -> TermSequence
 toTermSequence [] = error "term sequence has at least one term"
 toTermSequence [t] = EndSequence t
 toTermSequence (x : xs) = MakeSequence x (toTermSequence xs)
 
-toFact :: String -> Fact
-toFact s
+toFact :: String -> Bool -> Fact
+toFact s file
   | not (isFact s) = error $ s ++ " cannot be a valid fact"
-  | otherwise = toAtom (init s)
+  | otherwise = toAtom (init s) file
 
-toRule :: String -> Rule
-toRule l
+toRule :: String -> Bool -> Rule
+toRule l file
   | not (isRule l) = error $ l ++ "cannot be a rule"
-  | otherwise = MakeRule (toAtom beforeSpecial) (toAtomSequence atoms)
+  | otherwise = MakeRule (toAtom beforeSpecial file) (toAtomSequence atoms)
   where
     noDot = init l
     breaking = break (== ':') noDot
     beforeSpecial = init $ fst breaking
     afterSpecial = drop 3 $ snd breaking
-    atoms = map (toAtom . removeEndSpace) (splitBy ',' afterSpecial)
+    atoms = map (\s -> toAtom (removeEndSpace s) file) (splitBy ',' afterSpecial)
 
 toEquality :: String -> (Term, Term)
 toEquality str
   | not (isEquality str) = error $ str ++ " cannot be an equality"
-  | otherwise = (toTerm before, toTerm after)
+  | otherwise = (toTerm before False, toTerm after False)
   where
     noDot = init str
     before =
@@ -127,7 +127,7 @@ showRules :: Database -> [String]
 showRules (r, f) = map showRule r
 
 factToTerm :: Fact -> Term
-factToTerm f = MakeTermAtom (toAtom (init (showFact f)))
+factToTerm f = MakeTermAtom (toAtom (init (showFact f)) False)
 
 termToAtom :: Term -> Atom
 termToAtom (MakeTermAtom a) = a
@@ -156,5 +156,5 @@ getVariablesTerm (MakeTermAtom a) = getVariablesAtom a
 interpreteCode :: [String] -> Database
 interpreteCode c = (rules, facts)
   where
-    rules = map toRule (filter isRule c)
-    facts = map toFact (filter isFact c)
+    rules = map (`toRule` True) (filter isRule c)
+    facts = map (`toFact` True) (filter isFact c)

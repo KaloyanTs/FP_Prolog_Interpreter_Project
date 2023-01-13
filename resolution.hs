@@ -46,5 +46,5 @@ resolve a db = needed a $ collectSolutions $ buildRTree db [a] (EndQR True)
 
 interpreteInput :: String -> Database -> [QueryResult]
 interpreteInput input db@(r, f)
-  | isFact input = resolve (toAtom (init input)) db
+  | isFact input = resolve (toAtom (init input) False) db
   | otherwise = [toBeUnified (toEquality input)]
