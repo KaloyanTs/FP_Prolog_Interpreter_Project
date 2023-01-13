@@ -3,7 +3,6 @@ module Checkers where
 import Data.Char
 import Datatypes
 import Tools
-import Identities
 
 isIdentifier :: String -> Bool
 isIdentifier [] = False

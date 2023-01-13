@@ -3,7 +3,6 @@ module Unification where
 import Checkers
 import Conversions
 import Datatypes
-import Identities
 
 lengthSeq :: Sequence a -> Int
 lengthSeq (EndSequence _) = 1

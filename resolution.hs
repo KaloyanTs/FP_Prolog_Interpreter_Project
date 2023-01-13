@@ -3,7 +3,6 @@ module Resolution where
 import Checkers
 import Conversions
 import Datatypes
-import Identities
 import Unification
 
 uniqueQRs :: [QueryResult] -> [QueryResult]
