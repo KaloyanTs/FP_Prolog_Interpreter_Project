@@ -54,11 +54,12 @@ workWithFile path = do
   case contents of 
      Left ex   -> putStrLn "No such file... " 
      Right val -> do
-        let truth = consult val
+        let modify = removeWhiteSpacesAroundComma val
+        let truth = consult modify
         putStrLn $ if fst truth then "true." else "false.\n" ++ unlines (snd truth)
         let realCode =
               [ removeWhiteSpacesAroundComma x
-                | x <- lines val,
+                | x <- lines modify,
                   (not . isComment) x,
                   (not . null) x
               ]
@@ -78,8 +79,6 @@ loop = do
   workWithFile file
   anotherFile
 
-
--- todo handle error on file reading
 -- todo childof(X,Y) doesn't finish
 
 main :: IO ()

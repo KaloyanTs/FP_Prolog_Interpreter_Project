@@ -18,6 +18,6 @@ parent(ivan, penka).
 parent(X,Y) :- father(X, Y).
 parent(X,Y) :- mother(X, Y).
 
-childof(X, Y) :-parent(Y,X).
+childof(X, Y) :- parent(Y ,X).
 
 male(ivan).

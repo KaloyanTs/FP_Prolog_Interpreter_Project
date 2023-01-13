@@ -59,8 +59,8 @@ toRule l
   where
     noDot = init l
     breaking = break (== ':') noDot
-    beforeSpecial = fst breaking
-    afterSpecial = drop 2 $ snd breaking
+    beforeSpecial = init $ fst breaking
+    afterSpecial = drop 3 $ snd breaking
     atoms = map (toAtom . removeEndSpace) (splitBy ',' afterSpecial)
 
 toEquality :: String -> (Term, Term)
