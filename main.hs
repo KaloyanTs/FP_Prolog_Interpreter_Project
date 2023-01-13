@@ -1,23 +1,5 @@
-{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
-{-# HLINT ignore "Use when" #-}
-import Checkers
-import Conversions
-import Datatypes
-import Identities
-import Resolutions
+import Prolog
 import Tools
-import Unification
-
-consult :: String -> (Bool, [String])
-consult contents = (truth, if truth then [] else filter (\x -> not (isFact x || isRule x || isComment x)) (extractData contents))
-  where
-    truth = all (\x -> isFact x || isRule x || isComment x) (extractData contents)
-
-interpreteCode :: [String] -> Database
-interpreteCode c = (rules, facts)
-  where
-    rules = map toRule (filter isRule c)
-    facts = map toFact (filter isFact c)
 
 showQRs :: [QueryResult] -> IO ()
 showQRs [] = do

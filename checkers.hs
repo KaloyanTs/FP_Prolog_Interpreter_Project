@@ -127,3 +127,8 @@ areIdenticalReplacements :: Replacement -> Replacement -> Bool
 areIdenticalReplacements (ReplaceId a) (ReplaceId b) = areIdenticalIds a b
 areIdenticalReplacements (ReplaceVar a) (ReplaceVar b) = areIdenticalVariables a b
 areIdenticalReplacements _ _ = False
+
+consult :: String -> (Bool, [String])
+consult contents = (truth, if truth then [] else filter (\x -> not (isFact x || isRule x || isComment x)) (extractData contents))
+  where
+    truth = all (\x -> isFact x || isRule x || isComment x) (extractData contents)

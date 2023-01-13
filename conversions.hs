@@ -152,3 +152,9 @@ getVariablesTerm :: Term -> [Variable]
 getVariablesTerm (MakeTermC _) = []
 getVariablesTerm (MakeTermV v) = [v]
 getVariablesTerm (MakeTermAtom a) = getVariablesAtom a
+
+interpreteCode :: [String] -> Database
+interpreteCode c = (rules, facts)
+  where
+    rules = map toRule (filter isRule c)
+    facts = map toFact (filter isFact c)

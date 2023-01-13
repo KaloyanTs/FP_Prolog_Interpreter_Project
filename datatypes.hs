@@ -12,6 +12,7 @@ data Variable = MakeVar Char LetterNumberSequence
 type Constant = Identifier
 
 type TermSequence = Sequence Term
+
 type AtomSequence = Sequence Atom
 
 data Sequence a

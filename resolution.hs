@@ -1,4 +1,4 @@
-module Resolutions where
+module Resolution where
 
 import Checkers
 import Conversions
