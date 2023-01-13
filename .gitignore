@@ -1,0 +1,6 @@
+*.*
+!.gitignore
+!*.hs
+!*.pl
+!documentation/
+!*.pdf
