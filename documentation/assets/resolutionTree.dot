@@ -1,3 +1,60 @@
 digraph{
-    
+    ranksep=.4;
+    rankdir="TB";
+
+    r [label="parent(Parent,Child)."];
+    r0 [label="parent(han,kyloren)."];
+    r01 [label="Parent=han \n Child=kyloren"];
+    r1 [label="father(Parent,Child)."];
+    r2 [label="mother(Parent,Child)."];
+    r11 [label="father(ruwee,padme)."];
+    r111 [label="Parent=ruwee \n Child=padme"];
+    r12 [label="..."];
+    r121 [label="..."];
+    r13 [label="father(han,ben)."];
+    r131 [label="Parent=han \n Child=ben"];
+    r14 [label="male(Parent), parent(Parent,Child)"];
+    r21 [label="mother(jobal,padme)."]; 
+    r211 [label="Parent=jobal \n Child=padme"]; 
+    r22 [label="..."];
+    r221 [label="..."];
+    r23 [label="mother(leia,ben)."];
+    r231 [label="Parent=leia \n Child=ben"];
+    r141 [label="parent(han,Child)"];
+    r1411 [label="parent(han,kyloren)"];
+    r14111 [label="Parent=han \n Child=kyloren"];
+    r1412 [label="father(han,Child)"];
+    r1413 [label="mother(han,Child)"];
+    r14121 [label="father(han,ben)"];
+    r141211 [label="Parent=han \n Child=ben"];
+    r14122 [label="male(han), parent(han,Child)"];
+    r14131 [label="X"];
+    r141221 [label="..."]
+    r -> r0 [label = "Parent=han \n Child=kyloren"]
+    r -> r1 [label = "Parent=Parent \n Child=Child"]
+    r -> r2 [label = "Parent=Parent \n Child=Child"]
+    r1 -> r11 [label = "Parent=ruwee \n Child=padme"]
+    r1 -> r12 [label = "...", style = "dotted"]
+    r1 -> r13 [label = "Parent=han \n Child=ben"]
+    r1 -> r14 [label = "X=Parent \n Y=Child"]
+    r2 -> r21 [label = "Parent=jobal \n Child=padme"]
+    r2 -> r22 [label = "...", style = "dotted"]
+    r2 -> r23 [label = "Parent=leia \n Child=ben"]
+    r14 -> r141 [label = "Parent=han"]
+    r141 -> r1411 [label = "Child=kyloren"]
+    r141 -> r1412 [label = "Y=Child"]
+    r141 -> r1413 [label = "Y=Child"]
+    r1413 -> r14131 [label = "no suitable \n unifications", color="red"]
+    r11 -> r111 [color = "green"]
+    r13 -> r131 [color = "green"]
+    r12 -> r121 [color = "green"]
+    r1411 -> r14111 [color = "green"]
+    r1412 -> r14121 [label = "Child=ben"]
+    r1412 -> r14122 [label = "Y=Child"]
+    r14121 -> r141211 [color = "green"]
+    r14122 -> r141221 [label = "..."]
+    r21 -> r211 [color = "green"]
+    r22 -> r221 [color = "green"]
+    r23 -> r231 [color = "green"]
+    r0 -> r01 [color = "green"]
 }
