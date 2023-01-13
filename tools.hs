@@ -25,6 +25,11 @@ splitBy s l =
 removeEmpty :: [String] -> [String]
 removeEmpty = filter (not . null)
 
+isSubstring :: Eq a => [a] -> [a] -> Bool
+isSubstring [] _ = True
+isSubstring _ [] = False
+isSubstring (x : xs) (y : ys) = (x == y && isSubstring xs ys) || isSubstring (x : xs) ys
+
 extractData :: String -> [String]
 extractData l = removeEmpty (splitBy '\n' l)
 

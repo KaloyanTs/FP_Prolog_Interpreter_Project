@@ -55,9 +55,6 @@ isRule l =
   where
     noDot = init l
     hasSpecial = " :- " `isSubstring` noDot
-    isSubstring [] _ = True
-    isSubstring _ [] = False
-    isSubstring (x : xs) (y : ys) = (x == y && isSubstring xs ys) || isSubstring (x : xs) ys
     beforeSpecial = takeWhile (/= ' ') noDot
     afterSpecial = drop 4 (dropWhile (/= ' ') noDot)
 
