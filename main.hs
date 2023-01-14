@@ -33,7 +33,7 @@ check input database = do
   if input == "quit"
     then return ()
     else
-      if not (isFact input) && not (isRule input) && not (isEquality input) && not (isSequence input)
+      if not (isFact input) && not (isRule input) && not (isEquality input)
         then do
           putStrLn "You are allowed to input only facts, queries and equalities!"
           userInteract database

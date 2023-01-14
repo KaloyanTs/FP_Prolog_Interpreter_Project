@@ -57,9 +57,6 @@ isRule l =
     beforeSpecial = takeWhile (/= ' ') noDot
     afterSpecial = drop 4 (dropWhile (/= ' ') noDot)
 
-isSequence :: String -> Bool
-isSequence str = (not . null) str && last str == '.' && all isAtom (splitBy ',' (init str))
-
 isEquality :: String -> Bool
 isEquality str =
   '=' `elem` str
@@ -93,11 +90,11 @@ tsContainsVariable (MakeSequence t ts) =
   termContainsVariable t
     || tsContainsVariable ts
 
-anyAS :: (Atom -> Bool) -> AtomSequence -> Bool
+anyAS :: (Atom->Bool) -> AtomSequence -> Bool
 anyAS p (EndSequence a) = p a
 anyAS p (MakeSequence a as) = p a || anyAS p as
 
-allAS :: (Atom -> Bool) -> AtomSequence -> Bool
+allAS :: (Atom->Bool) -> AtomSequence -> Bool
 allAS p (EndSequence a) = p a
 allAS p (MakeSequence a as) = p a && allAS p as
 
@@ -110,7 +107,7 @@ bad (EndQR False) = True
 bad _ = False
 
 notBad :: QueryResult -> Bool
-notBad = not . bad
+notBad = not.bad
 
 emptyQR :: QueryResult -> Bool
 emptyQR (EndQR _) = True
