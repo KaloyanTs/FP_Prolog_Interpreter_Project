@@ -30,6 +30,10 @@ isSubstring [] _ = True
 isSubstring _ [] = False
 isSubstring (x : xs) (y : ys) = (x == y && isSubstring xs ys) || isSubstring (x : xs) ys
 
+uniques :: Eq a => [a] -> [a]
+uniques [] = [] 
+uniques (x:xs) = x : uniques (filter (/= x) xs)
+
 extractData :: String -> [String]
 extractData l = removeEmpty (splitBy '\n' l)
 

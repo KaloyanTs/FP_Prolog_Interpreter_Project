@@ -4,6 +4,7 @@ import Checkers
 import Conversions
 import Datatypes
 import Unification
+import Tools
 
 uniqueQRs :: [QueryResult] -> [QueryResult]
 uniqueQRs [] = []
@@ -29,22 +30,22 @@ collectSolutions EmptyRT = []
 collectSolutions (LeafRT qr) = [qr]
 collectSolutions (NodeRT ts) = concatMap collectSolutions ts
 
-needed :: Atom -> [QueryResult] -> [QueryResult]
+needed :: [Atom] -> [QueryResult] -> [QueryResult]
 needed a qrs = filter notBad (map (onlyUseful vars) qrs)
   where
-    vars = getVariablesAtom a
+    vars = uniques $ concatMap getVariablesAtom a
     onlyUseful :: [Variable] -> QueryResult -> QueryResult
-    -- onlyUseful _ qr = qr
     onlyUseful [] _ = EndQR True
     onlyUseful arr (EndQR b) = EndQR b
     onlyUseful arr (MakeQR qr@(var, _) qrs)
       | var `elem` arr = MakeQR qr (onlyUseful (filter (not . (==) var) arr) qrs)
       | otherwise = onlyUseful (filter (not . (==) var) arr) qrs
 
-resolve :: Fact -> Database -> [QueryResult]
-resolve a db = needed a $ collectSolutions $ buildRTree db [a] (EndQR True)
+resolve :: [Fact] -> Database -> [QueryResult]
+resolve a db = needed a $ collectSolutions $ buildRTree db a (EndQR True)
 
 interpreteInput :: String -> Database -> [QueryResult]
 interpreteInput input db@(r, f)
-  | isFact input = resolve (toAtom (init input) False) db
-  | otherwise = [toBeUnified (toEquality input)]
+  | isFact input = resolve [toAtom (init input) False] db
+  | isEquality input = [toBeUnified (toEquality input)]
+  | otherwise = resolve (map (`toAtom` False) (splitBy ',' (init input))) db
