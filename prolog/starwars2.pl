@@ -23,3 +23,4 @@ childof(X, Y) :- parent(Y ,X).
 son(X,Y) :- male(X), father(Y,X).
 
 male(han).
+male(luke).
