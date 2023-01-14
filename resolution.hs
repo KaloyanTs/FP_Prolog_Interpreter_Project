@@ -7,7 +7,7 @@ import Unification
 
 uniqueQRs :: [QueryResult] -> [QueryResult]
 uniqueQRs [] = []
-uniqueQRs (qr : qrs) = qr : filter (not . (==) qr) qrs
+uniqueQRs (qr : qrs) = qr : filter (/= qr) qrs
 
 buildRTree :: Database -> [Atom] -> QueryResult -> ResolutionTree
 buildRTree _ [] qr = LeafRT qr
@@ -37,8 +37,8 @@ needed a qrs = filter notBad (map (onlyUseful vars) qrs)
     onlyUseful [] _ = EndQR True
     onlyUseful arr (EndQR b) = EndQR b
     onlyUseful arr (MakeQR qr@(var, _) qrs)
-      | var `elem` arr = MakeQR qr (onlyUseful (filter (not . (==) var) arr) qrs)
-      | otherwise = onlyUseful (filter (not . (==) var) arr) qrs
+      | var `elem` arr = MakeQR qr (onlyUseful (filter (/= var) arr) qrs)
+      | otherwise = onlyUseful (filter (/= var) arr) qrs
 
 resolve :: Fact -> Database -> [QueryResult]
 resolve a db = needed a $ collectSolutions $ buildRTree db [a] (EndQR True)

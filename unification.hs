@@ -16,13 +16,13 @@ insertInStack _ _ _ = error "TermSequnces must be of equal length"
 toBeUnified :: (Term, Term) -> QueryResult
 toBeUnified pair@(l, r)
   | termContainsVariable l || termContainsVariable r = iter [pair] (EndQR False)
-  | l==r = EndQR True
+  | l == r = EndQR True
   | otherwise = EndQR False
   where
     iter :: [(Term, Term)] -> QueryResult -> QueryResult
     iter [] res = res
     iter ((MakeTermC lhs, MakeTermC rhs) : pairs) res
-      | lhs==rhs = iter pairs res
+      | lhs == rhs = iter pairs res
       | otherwise = EndQR False
     iter ((MakeTermV lhs, MakeTermV rhs) : pairs) res =
       iter
@@ -39,7 +39,7 @@ toBeUnified pair@(l, r)
     iter ((MakeTermAtom lhsAtom, MakeTermAtom rhsAtom) : pairs) res =
       proceedAtoms lhsAtom rhsAtom pairs res
     proceedAtoms (MakeAtom id1 ts1) (MakeAtom id2 ts2) stack res
-      | not (id1==id2) = EndQR False
+      | id1 /= id2 = EndQR False
       | lengthSeq ts1 /= lengthSeq ts2 = EndQR False
       | otherwise = iter (insertInStack ts1 ts2 stack) res
 
@@ -48,7 +48,7 @@ replaceStackC var c = map (\(l, r) -> (replaceInTerm l, replaceInTerm r))
   where
     replaceInTerm :: Term -> Term
     replaceInTerm p@(MakeTermV v)
-      | (==) v var = MakeTermC c
+      | v == var = MakeTermC c
       | otherwise = p
     replaceInTerm p@(MakeTermC _) = p
     replaceInTerm p@(MakeTermAtom a) = MakeTermAtom (replaceInAtom a)
@@ -63,7 +63,7 @@ replaceStackVar var r = map (\(l, r) -> (replaceInTerm l, replaceInTerm r))
   where
     replaceInTerm :: Term -> Term
     replaceInTerm p@(MakeTermV v)
-      | (==) v var = MakeTermV r
+      | v==var = MakeTermV r
       | otherwise = p
     replaceInTerm p@(MakeTermC _) = p
     replaceInTerm p@(MakeTermAtom a) = MakeTermAtom (replaceInAtom a)
@@ -91,10 +91,10 @@ substituteTS var r (MakeSequence t ts) = MakeSequence (substituteTerm var r t) (
 
 substituteTerm :: Variable -> Replacement -> Term -> Term
 substituteTerm var (ReplaceId id) t@(MakeTermV v)
-  | (==) var v = MakeTermC id
+  | var==v = MakeTermC id
   | otherwise = t
 substituteTerm var (ReplaceVar a) t@(MakeTermV v)
-  | (==) var v = MakeTermV a
+  | var==v = MakeTermV a
   | otherwise = t
 substituteTerm var r t@(MakeTermAtom a) = MakeTermAtom (substituteAtom var r a)
 substituteTerm _ _ t = t
