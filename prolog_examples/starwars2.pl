@@ -24,3 +24,4 @@ son(X,Y) :- male(X), father(Y,X).
 
 male(han).
 male(luke).
+male(X) :- father(X,Y).

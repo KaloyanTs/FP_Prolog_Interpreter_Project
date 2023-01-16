@@ -50,7 +50,7 @@ userInteract database = do
 
 workWithFile :: String -> IO ()
 workWithFile path = do
-  contents <- try (readFile ("prolog/" ++ path)) :: IO (Either SomeException String) 
+  contents <- try (readFile path) :: IO (Either SomeException String) 
   case contents of 
      Left ex   -> putStrLn "No such file... " 
      Right val -> do
@@ -74,7 +74,7 @@ anotherFile = do
 
 loop :: IO ()
 loop = do
-  putStr "Which file to consult from the directory \"prolog/\"?\n> "
+  putStr "Which file to consult?\n> "
   file <- getLine
   workWithFile file
   anotherFile
