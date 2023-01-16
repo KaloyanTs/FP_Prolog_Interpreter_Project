@@ -1,8 +1,8 @@
-module Unification where
+module Prolog.Unification where
 
-import Checkers
-import Conversions
-import Datatypes
+import Prolog.Checkers
+import Prolog.Conversions
+import Prolog.Datatypes
 
 lengthSeq :: Sequence a -> Int
 lengthSeq (EndSequence _) = 1

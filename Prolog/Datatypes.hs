@@ -1,4 +1,4 @@
-module Datatypes where
+module Prolog.Datatypes where
 
 data LetterNumberSequence
   = EmptyLNS

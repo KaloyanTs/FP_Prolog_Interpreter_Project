@@ -1,7 +1,7 @@
-module Checkers where
+module Prolog.Checkers where
 
 import Data.Char
-import Datatypes
+import Prolog.Datatypes
 import Tools
 
 isIdentifier :: String -> Bool

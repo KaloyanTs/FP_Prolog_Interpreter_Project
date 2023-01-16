@@ -1,9 +1,9 @@
-module Resolution where
+module Prolog.Resolution where
 
-import Checkers
-import Conversions
-import Datatypes
-import Unification
+import Prolog.Checkers
+import Prolog.Conversions
+import Prolog.Datatypes
+import Prolog.Unification
 import Tools
 
 uniqueQRs :: [QueryResult] -> [QueryResult]

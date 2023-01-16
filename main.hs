@@ -1,4 +1,8 @@
-import Prolog
+import Prolog.Datatypes
+import Prolog.Checkers
+import Prolog.Conversions
+import Prolog.Unification
+import Prolog.Resolution
 import Tools
 
 import Control.Exception

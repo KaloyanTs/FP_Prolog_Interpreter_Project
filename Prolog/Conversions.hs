@@ -1,7 +1,7 @@
-module Conversions where
+module Prolog.Conversions where
 
-import Checkers
-import Datatypes
+import Prolog.Checkers
+import Prolog.Datatypes
 import Tools
 
 toLNS :: String -> LetterNumberSequence
