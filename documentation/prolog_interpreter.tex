@@ -224,50 +224,50 @@
 	\begin{lstlisting}
 		Which file to consult?
 		> starwars.pl
-		No such file...
+			No such file...
 		Consult another file? ( y | [n] )
-		> y
-		Which file to consult from the directory "prolog/"?
-		> starwars.pl
-		true.
-		> father(anakin,luke).
-		true.
-		> father(anakin,luke)
+		y
+		Which file to consult?
+		starwars.pl
+			true.
+		father(anakin,luke).
+			true.
+		father(anakin,luke)
 		You are allowed to input only facts, queries and equalities!
-		> father(luke,anakin).
-		false.
-		> father(Parent,Child).
-		Parent = ruwee.
-		Child = padme.
+		father(luke,anakin).
+			false.
+		father(Parent,Child).
+			Parent = ruwee.
+			Child = padme.
 		
-		Parent = anakin.
-		Child = luke.
+			Parent = anakin.
+			Child = luke.
 		
-		Parent = anakin.
-		Child = leia.
+			Parent = anakin.
+			Child = leia.
 		
-		Parent = han.
-		Child = ben.
+			Parent = han.
+			Child = ben.
 		
-		Parent = han.
-		Child = kyloren.
+			Parent = han.
+			Child = kyloren.
 		.
-		> a(X)=a(arg).
-		X = arg.
-		> a(Y,r)=b(X,Z).
-		false.
-		> a(Y,r)=a(X,Z).
-		Y = X.
-		Z = r.
-		> pred(Z,Z)=pred(X,t).
-		X = t.
-		Z = t.
-		> pred(Z,Z)=pred(X,Y).
-		Y = X.
-		Z = Y.
-		> quit
+		a(X)=a(arg).
+			X = arg.
+		a(Y,r)=b(X,Z).
+			false.
+		a(Y,r)=a(X,Z).
+			Y = X.
+			Z = r.
+		pred(Z,Z)=pred(X,t).
+			X = t.
+			Z = t.
+		pred(Z,Z)=pred(X,Y).
+			Y = X.
+			Z = Y.
+		quit
 		Consult another file? ( y | [n] )
-		> no
+		no
 		Closing...
 		
 	\end{lstlisting}
