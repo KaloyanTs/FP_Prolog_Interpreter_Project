@@ -7,11 +7,14 @@ import Tools
 
 import Control.Exception
 
+answer :: String -> IO()
+answer str = do
+  putStr "\t"
+  putStrLn str
+
 showQRs :: [QueryResult] -> IO ()
 showQRs [] = do
-  putStrLn "false."
-showQRs [qr] = do
-  showQR qr
+  answer "false."
 showQRs (x@(EndQR _) : xs) = do
   showQR x
 showQRs (x : xs) = do
@@ -23,13 +26,13 @@ showQRs (x : xs) = do
 
 showQR :: QueryResult -> IO ()
 showQR (EndQR True) = do
-  putStrLn "true."
+  answer "true."
 showQR (EndQR False) = do
-  putStrLn "false."
+  answer "false."
 showQR (MakeQR (var, r) (EndQR _)) = do
-  putStrLn $ showVariable var ++ " = " ++ showReplacement r ++ "."
+  answer $ showVariable var ++ " = " ++ showReplacement r ++ "."
 showQR (MakeQR (var, r) qr) = do
-  putStrLn $ showVariable var ++ " = " ++ showReplacement r ++ "."
+  answer $ showVariable var ++ " = " ++ showReplacement r ++ "."
   showQR qr
 
 check :: String -> Database -> IO ()
@@ -47,7 +50,6 @@ check input database = do
 
 userInteract :: Database -> IO ()
 userInteract database = do
-  putStr "> "
   factInput <- getLine
   let fact = removeWhiteSpacesAroundComma factInput
   check fact database
@@ -56,11 +58,11 @@ workWithFile :: String -> IO ()
 workWithFile path = do
   contents <- try (readFile path) :: IO (Either SomeException String) 
   case contents of 
-     Left ex   -> putStrLn "No such file... " 
+     Left ex   -> answer "No such file... " 
      Right val -> do
         let modify = removeWhiteSpacesAroundComma val
         let truth = consult modify
-        putStrLn $ if fst truth then "true." else "false.\n" ++ unlines (snd truth)
+        answer $ if fst truth then "true." else "false.\n" ++ unlines (snd truth)
         let realCode =
               [ removeWhiteSpacesAroundComma x
                 | x <- lines modify,
@@ -72,13 +74,13 @@ workWithFile path = do
 
 anotherFile :: IO()
 anotherFile = do
-  putStr "Consult another file? ( y | [n] )\n> "
+  putStrLn "Consult another file? ( y | [n] )"
   response <- getLine
   if (not . null) response && head response == 'y' then loop else return ()
 
 loop :: IO ()
 loop = do
-  putStr "Which file to consult?\n> "
+  putStrLn "Which file to consult?"
   file <- getLine
   workWithFile file
   anotherFile
